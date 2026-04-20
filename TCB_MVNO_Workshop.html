@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>TCB Mobile · MVNO Workshop 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════
+   ACCESS GATE STYLES
+═══════════════════════════════════ */
+#gate-overlay{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#060f1c 0%,#0a1f38 50%,#04120d 100%);display:flex;align-items:center;justify-content:center;transition:opacity .5s}
+#gate-overlay.hide{opacity:0;pointer-events:none}
+.gate-box{background:rgba(255,255,255,.04);border:1px solid rgba(0,184,124,.25);border-radius:20px;padding:48px 44px;width:100%;max-width:440px;text-align:center;backdrop-filter:blur(20px)}
+.gate-logo{margin-bottom:28px}
+.gate-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:#fff;margin-bottom:8px}
+.gate-sub{font-size:.85rem;color:#8ba3c1;margin-bottom:32px;line-height:1.6}
+.gate-field{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px 16px;font-size:.95rem;color:#fff;width:100%;font-family:'DM Sans',sans-serif;transition:border-color .2s;outline:none;margin-bottom:12px}
+.gate-field:focus{border-color:rgba(0,184,124,.6);background:rgba(0,184,124,.05)}
+.gate-field::placeholder{color:#4a6080}
+.gate-btn{background:#00b87c;color:#fff;border:none;border-radius:50px;padding:14px 0;font-size:.95rem;font-weight:600;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:background .2s,transform .15s;margin-top:6px}
+.gate-btn:hover{background:#00c9b1;transform:translateY(-1px)}
+.gate-err{color:#ff6b6b;font-size:.82rem;margin-top:10px;display:none;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);border-radius:8px;padding:8px 12px}
+.gate-meta{font-size:.72rem;color:#4a6080;margin-top:20px;line-height:1.6}
+#gate-blocked{display:none;color:#ff6b6b;}
+#gate-blocked h2{font-family:'Syne',sans-serif;font-size:1.4rem;margin-bottom:12px}
+#gate-blocked p{font-size:.88rem;color:#8ba3c1;line-height:1.7}
+
+/* ═══════════════════════════════════
+   SITE STYLES
+═══════════════════════════════════ */
+:root{
+  --navy:#0a1628;--dark:#0d1f3c;--mid:#112244;
+  --green:#00b87c;--teal:#00c9b1;--yellow:#f5c842;
+  --white:#ffffff;--off:#e8f4f0;--muted:#8ba3c1;
+  --border:rgba(0,184,124,0.18);--card:rgba(255,255,255,0.04);
+  --light-bg:#f7faf9;--radius:14px;--radius-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;line-height:1.6}
+/* IP PROTECTION */
+body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+
+/* ── WATERMARK ── */
+.watermark-layer{position:fixed;inset:0;z-index:9000;pointer-events:none;overflow:hidden;}
+.watermark-layer::before{
+  content:'CONFIDENTIAL · TCB MVNO WORKSHOP 2026 · DSG / BROADBRAND · NOT FOR DISTRIBUTION ·';
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 120px,rgba(255,255,255,0.018) 120px,rgba(255,255,255,0.018) 122px);
+  font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,0.04);
+  display:flex;align-items:center;justify-content:center;
+  white-space:nowrap;
+  background-image:repeating-linear-gradient(
+    -55deg,
+    transparent 0,transparent 80px,
+    rgba(255,255,255,.015) 80px,rgba(255,255,255,.015) 82px
+  );
+  word-spacing:40px;
+}
+
+/* ─── NAVBAR ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:5000;
+  height:68px;padding:0 40px;
+  display:flex;align-items:center;gap:24px;
+  background:rgba(8,17,32,0.94);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,184,124,0.14);
+  transition:background .3s;
+}
+/* LEFT: TCB logo block */
+.nav-tcb{display:flex;align-items:center;gap:0;text-decoration:none;flex-shrink:0}
+.nav-tcb-logo{display:flex;align-items:center}
+
+/* CENTRE: partnership label */
+.nav-center{
+  display:flex;align-items:center;gap:10px;
+  padding:6px 16px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:50px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.nav-center-label{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.nav-center-sep{width:1px;height:14px;background:rgba(255,255,255,.12)}
+.nav-center-name{font-size:.8rem;font-weight:600;color:var(--white)}
+
+/* NAV LINKS — flex grow to fill space */
+.nav-links{display:flex;align-items:center;gap:22px;flex:1;justify-content:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:500;transition:color .2s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:var(--white)}
+
+/* CTA */
+.nav-cta{
+  flex-shrink:0;
+  background:var(--green);color:#fff;border:none;border-radius:50px;
+  padding:9px 22px;font-size:.84rem;font-weight:600;cursor:pointer;
+  text-decoration:none;transition:background .2s,transform .15s;
+  font-family:'DM Sans',sans-serif;white-space:nowrap;
+}
+.nav-cta:hover{background:var(--teal);transform:translateY(-1px)}
+
+/* ─── HERO ─── */
+#hero{
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%,rgba(0,184,124,.18) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 20% 80%,rgba(0,201,177,.10) 0%,transparent 50%),
+    linear-gradient(160deg,#0a1628 0%,#0d2440 40%,#0a1628 100%);
+  display:flex;align-items:center;
+  padding:120px 48px 80px;
+  position:relative;overflow:hidden;
+}
+.hero-grid{max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 400px;gap:80px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,184,124,.12);border:1px solid rgba(0,184,124,.3);border-radius:50px;padding:6px 14px;font-size:.78rem;font-weight:500;color:var(--green);margin-bottom:28px;animation:fadeUp .6s ease both}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+h1.hero-h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,4.5vw,4.2rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:24px;animation:fadeUp .6s .1s ease both}
+h1.hero-h1 em{color:var(--green);font-style:normal}
+h1.hero-h1 .tl{color:var(--teal)}
+.hero-sub{font-size:1.05rem;color:var(--muted);line-height:1.72;max-width:520px;margin-bottom:40px;animation:fadeUp .6s .2s ease both}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;animation:fadeUp .6s .3s ease both}
+.btn-p{background:var(--green);color:#fff;border:none;border-radius:50px;padding:14px 30px;font-size:.95rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:8px}
+.btn-p:hover{background:var(--teal);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,184,124,.35)}
+.btn-g{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,.15);border-radius:50px;padding:14px 30px;font-size:.95rem;font-weight:500;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-g:hover{border-color:var(--green);color:var(--white)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,.08);animation:fadeUp .6s .4s ease both}
+.hs-num{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--green);line-height:1}
+.hs-lbl{font-size:.73rem;color:var(--muted);margin-top:4px;line-height:1.4}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* PHONE MOCK */
+.phone-mock{background:linear-gradient(160deg,#1a2f4a 0%,#0d1f3c 100%);border:1.5px solid rgba(0,184,124,.25);border-radius:36px;padding:28px 24px;box-shadow:0 40px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);position:relative;overflow:hidden;animation:fadeUp .6s .2s ease both}
+.phone-mock::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:80px;height:6px;background:#0a1628;border-radius:0 0 8px 8px}
+.ph-time{text-align:center;font-size:.75rem;color:var(--muted);padding-top:8px;margin-bottom:20px}
+.ph-brand{font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:var(--white);margin-bottom:2px}
+.ph-welcome{font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:16px}
+.ph-card{background:linear-gradient(135deg,var(--green),var(--teal));border-radius:16px;padding:18px;margin-bottom:14px}
+.ph-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;opacity:.8;margin-bottom:4px}
+.ph-val{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;line-height:1}
+.ph-sub{font-size:.76rem;opacity:.85;margin-top:4px}
+.ph-prog{background:rgba(255,255,255,.25);border-radius:4px;height:4px;margin-top:10px}
+.ph-prog-bar{background:#fff;height:100%;border-radius:4px;width:72%}
+.ph-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.ph-row:last-child{border-bottom:none}
+.ph-rl{font-size:.8rem;color:var(--muted)}
+.ph-rv{font-size:.85rem;font-weight:600;color:var(--white)}
+.ph-rv.g{color:var(--green)}
+
+/* ─── SECTIONS ─── */
+section{scroll-margin-top:68px}
+.sd{background:var(--navy);padding:100px 48px}
+.sm{background:var(--dark);padding:100px 48px}
+.sl{background:var(--light-bg);padding:100px 48px;color:#0a1628}
+.sa{background:linear-gradient(135deg,#062015 0%,#0a2a1a 50%,#06201a 100%);padding:100px 48px}
+.con{max-width:1280px;margin:0 auto;width:100%}
+
+.slabel{display:inline-flex;align-items:center;gap:10px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--green);margin-bottom:20px}
+.slabel::before{content:'';width:24px;height:2px;background:var(--green);border-radius:2px}
+h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.9rem,3vw,2.8rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:16px}
+h2 em{color:var(--green);font-style:normal}
+.sl h2{color:#0a1628}
+.intro{font-size:1.02rem;color:var(--muted);max-width:640px;margin-bottom:56px;line-height:1.72}
+.sl .intro{color:#4a6080}
+
+/* CARDS */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:border-color .2s,transform .2s,box-shadow .2s}
+.card:hover{border-color:rgba(0,184,124,.5);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+.sl .card{background:#fff;border-color:#dceee8;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.sl .card:hover{border-color:var(--green)}
+.card-icon{width:44px;height:44px;border-radius:12px;background:rgba(0,184,124,.12);border:1px solid rgba(0,184,124,.2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px}
+.card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:10px;color:var(--white)}
+.sl .card h3{color:#0a1628}
+.card p{font-size:.86rem;color:var(--muted);line-height:1.65}
+.sl .card p{color:#4a6080}
+
+/* STAT ROW */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:56px}
+.stat{background:var(--mid);padding:32px 24px;text-align:center}
+.sl .stats{background:#cce3da}
+.sl .stat{background:#e8f4f0}
+.stat-n{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--green);line-height:1;margin-bottom:6px}
+.stat-l{font-size:.8rem;color:var(--muted);line-height:1.4}
+.sl .stat-l{color:#4a6080}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;gap:5px;background:rgba(0,184,124,.1);border:1px solid rgba(0,184,124,.25);color:var(--green);border-radius:50px;padding:4px 12px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.tag.yl{background:rgba(245,200,66,.1);border-color:rgba(245,200,66,.3);color:var(--yellow)}
+.tag.tl{background:rgba(0,201,177,.1);border-color:rgba(0,201,177,.3);color:var(--teal)}
+.tag.bl{background:rgba(100,160,255,.1);border-color:rgba(100,160,255,.3);color:#64a0ff}
+
+/* QUOTE */
+.qb{background:linear-gradient(135deg,rgba(0,184,124,.08),rgba(0,201,177,.05));border:1px solid rgba(0,184,124,.2);border-left:4px solid var(--green);border-radius:0 var(--radius) var(--radius) 0;padding:28px 32px;margin:40px 0;font-size:1.05rem;font-style:italic;color:var(--off);line-height:1.7}
+.qb cite{display:block;font-size:.78rem;font-style:normal;color:var(--muted);margin-top:10px}
+
+/* TABLE */
+.tw{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+thead tr{background:var(--mid)}
+.sl thead tr{background:#e8f4f0}
+thead th{padding:13px 18px;text-align:left;font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+.sl thead th{color:#4a6080;border-bottom-color:#cce3da}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+.sl tbody tr{border-bottom-color:#e4eeea}
+tbody tr:hover{background:rgba(0,184,124,.04)}
+tbody tr:last-child{border-bottom:none}
+td{padding:13px 18px;color:var(--off);vertical-align:top}
+.sl td{color:#2a4060}
+td:first-child{font-weight:600;color:var(--white)}
+.sl td:first-child{color:#0a1628}
+.sl .tw{border-color:#cce3da}
+td .g{color:var(--green)}
+td .mu{color:var(--muted);font-size:.8rem}
+
+/* TWO COL */
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+
+/* TIMELINE */
+.tl-wrap{position:relative;padding-left:28px}
+.tl-wrap::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(to bottom,var(--green),var(--teal));border-radius:2px}
+.tl-item{position:relative;margin-bottom:26px}
+.tl-item::before{content:'';position:absolute;left:-25px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--navy)}
+.tl-year{font-size:.73rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.tl-text{font-size:.88rem;color:var(--muted)}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:20px}
+.step{display:flex;gap:20px;align-items:flex-start}
+.step-n{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:rgba(0,184,124,.12);border:1px solid rgba(0,184,124,.3);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.82rem;color:var(--green)}
+.step h4{font-weight:600;font-size:.93rem;color:var(--white);margin-bottom:4px}
+.sl .step h4{color:#0a1628}
+.step p{font-size:.83rem;color:var(--muted);line-height:1.6}
+.sl .step p{color:#4a6080}
+
+/* USE CASE CARDS */
+.uc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.uc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.uc-card:hover{border-color:rgba(0,184,124,.5);transform:translateY(-2px)}
+.uc-card::before{content:attr(data-num);position:absolute;top:20px;right:24px;font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:rgba(0,184,124,.08);line-height:1}
+.uc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.98rem;color:var(--white);margin-bottom:10px}
+.uc-concept{font-size:.83rem;color:var(--muted);margin-bottom:14px;line-height:1.6}
+.uc-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.uc-list li{font-size:.8rem;color:var(--muted);display:flex;gap:8px}
+.uc-list li::before{content:'→';color:var(--green);flex-shrink:0}
+.uc-out{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);font-size:.78rem;color:var(--green);font-weight:500}
+
+/* EVP */
+.evp-g{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.evp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;transition:border-color .2s,transform .2s}
+.evp-card:hover{border-color:var(--green);transform:translateY(-3px)}
+.evp-n{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--green);line-height:1;margin-bottom:8px}
+.evp-t{font-weight:700;font-size:.86rem;color:var(--white);margin-bottom:8px;line-height:1.3}
+.evp-s{font-size:.76rem;color:var(--muted);line-height:1.55}
+
+/* PRICING */
+.prc-g{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.prc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;transition:border-color .2s,transform .2s}
+.prc-card:hover{border-color:rgba(0,184,124,.5);transform:translateY(-3px)}
+.prc-card.ft{border-color:var(--green);background:rgba(0,184,124,.06)}
+.prc-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 14px;border-radius:50px}
+.prc-lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px}
+.prc-cost{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--white);margin-bottom:4px}
+.prc-cost span{font-size:.88rem;font-weight:400;color:var(--muted)}
+.prc-tl{font-size:.8rem;color:var(--green);margin-bottom:20px}
+.prc-f{list-style:none;display:flex;flex-direction:column;gap:10px}
+.prc-f li{font-size:.83rem;color:var(--muted);display:flex;gap:10px;align-items:flex-start}
+.prc-f li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* METHODOLOGY */
+.mth{display:grid;grid-template-columns:repeat(8,1fr);background:var(--mid);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.mth-s{padding:18px 12px;text-align:center;border-right:1px solid var(--border)}
+.mth-s:last-child{border-right:none}
+.mth-s.gate{background:rgba(0,184,124,.08)}
+.mth-s.launch{background:rgba(0,184,124,.16)}
+.mth-m{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px}
+.mth-n{font-size:.72rem;font-weight:600;color:var(--white);line-height:1.3}
+.mth-s.gate .mth-n{color:var(--green)}
+
+/* DELIVERABLES */
+.dl-list{display:flex;flex-direction:column;gap:12px}
+.dl-item{display:flex;gap:18px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;transition:border-color .2s}
+.dl-item:hover{border-color:rgba(0,184,124,.4)}
+.dl-code{flex-shrink:0;background:rgba(0,184,124,.12);border:1px solid rgba(0,184,124,.25);color:var(--green);font-family:'Syne',sans-serif;font-weight:800;font-size:.82rem;padding:6px 12px;border-radius:var(--radius-sm);min-width:58px;text-align:center}
+.dl-body h4{font-weight:600;font-size:.93rem;color:var(--white);margin-bottom:4px}
+.dl-body p{font-size:.82rem;color:var(--muted);line-height:1.6}
+
+/* PACKAGES */
+.pkg-g{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.pkg-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;text-align:center;transition:all .2s}
+.pkg-card:hover{border-color:rgba(0,184,124,.5);transform:translateY(-2px)}
+.pkg-nm{font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:var(--green);margin-bottom:6px}
+.pkg-tg{font-size:.76rem;color:var(--white);font-weight:500;margin-bottom:8px}
+.pkg-v{font-size:.73rem;color:var(--muted);line-height:1.5}
+
+/* PARTNER CARDS */
+.pt-g{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:56px}
+.pt-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;gap:12px;transition:border-color .2s}
+.pt-card:hover{border-color:rgba(0,184,124,.4)}
+.pt-nm{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--white)}
+.pt-tg{font-size:.78rem;color:var(--green);font-weight:500}
+.pt-d{font-size:.83rem;color:var(--muted);line-height:1.6}
+
+/* VAS */
+.vas-g{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.vas-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:all .2s}
+.vas-card:hover{border-color:rgba(0,184,124,.5);transform:translateY(-2px)}
+.vas-ic{font-size:1.6rem;margin-bottom:12px}
+.vas-t{font-weight:700;font-size:.88rem;color:var(--white);margin-bottom:6px}
+.vas-d{font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.vas-tags{display:flex;gap:6px;flex-wrap:wrap}
+
+/* EMPLOYER */
+.emp-g{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.emp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.emp-role{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:12px}
+.emp-card ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.emp-card li{font-size:.84rem;color:var(--muted);display:flex;gap:8px}
+.emp-card li::before{content:'→';color:var(--green);flex-shrink:0}
+
+/* XANITE */
+.xan-card{background:linear-gradient(135deg,rgba(0,184,124,.06),rgba(0,201,177,.03));border:1px solid rgba(0,184,124,.2);border-radius:var(--radius);padding:24px}
+.xan-card h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--white);margin-bottom:12px}
+.xan-card ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.xan-card li{font-size:.8rem;color:var(--muted);display:flex;gap:8px}
+.xan-card li::before{content:'·';color:var(--green);font-size:1.3rem;line-height:.9;flex-shrink:0}
+
+/* CX */
+.cx-g{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.cx-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 16px;text-align:center}
+.sl .cx-item{background:#fff;border-color:#dceee8}
+.cx-n{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--green);line-height:1;margin-bottom:10px}
+.cx-t{font-weight:700;font-size:.86rem;color:var(--white);margin-bottom:6px}
+.sl .cx-t{color:#0a1628}
+.cx-d{font-size:.76rem;color:var(--muted);line-height:1.5}
+.sl .cx-d{color:#4a6080}
+
+/* FOOTER */
+footer{background:#060f1e;border-top:1px solid var(--border);padding:56px 48px 36px}
+.ft-g{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px}
+.ft-brand h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;margin-bottom:12px}
+.ft-brand p{font-size:.83rem;color:var(--muted);line-height:1.65}
+.ft-col h4{font-weight:700;font-size:.7rem;color:var(--white);margin-bottom:14px;text-transform:uppercase;letter-spacing:.1em}
+.ft-col a{display:block;font-size:.83rem;color:var(--muted);text-decoration:none;margin-bottom:8px;transition:color .2s}
+.ft-col a:hover{color:var(--green)}
+.ft-bot{max-width:1280px;margin:36px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--muted)}
+.ft-bot a{color:var(--green);text-decoration:none}
+
+/* REVEAL */
+.rev{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.rev.vis{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1200px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .evp-g,.cx-g,.pkg-g{grid-template-columns:repeat(2,1fr)}
+  .vas-g{grid-template-columns:repeat(2,1fr)}
+  .mth{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:960px){
+  nav{padding:0 20px;gap:12px}
+  .nav-center{display:none}
+  .nav-links{gap:14px}
+  .nav-links a{font-size:.78rem}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .sd,.sm,.sl,.sa{padding:60px 20px}
+  #hero{padding:100px 20px 56px}
+  .tc,.g3,.g2,.uc-grid,.prc-g,.emp-g,.pt-g{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .evp-g,.cx-g,.pkg-g,.mth{grid-template-columns:1fr}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ ACCESS GATE ═══════════════════════ -->
+<div id="gate-overlay">
+  <div class="gate-box" id="gate-form-box">
+    <!-- TCB Logo in gate -->
+    <div class="gate-logo">
+      <svg width="160" height="52" viewBox="0 0 200 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left bracket -->
+        <rect x="0" y="0" width="14" height="64" rx="3" fill="#F5C842"/>
+        <rect x="0" y="0" width="40" height="14" rx="3" fill="#F5C842"/>
+        <rect x="0" y="50" width="40" height="14" rx="3" fill="#F5C842"/>
+        <!-- Right bracket -->
+        <rect x="186" y="0" width="14" height="64" rx="3" fill="#00B87C"/>
+        <rect x="160" y="0" width="40" height="14" rx="3" fill="#00B87C"/>
+        <rect x="160" y="50" width="40" height="14" rx="3" fill="#00B87C"/>
+        <!-- TCB text -->
+        <text x="100" y="30" font-family="'Syne',sans-serif" font-weight="800" font-size="20" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle" letter-spacing="2">TCB</text>
+        <text x="100" y="50" font-family="'DM Sans',sans-serif" font-weight="400" font-size="8" fill="#8BA3C1" text-anchor="middle" letter-spacing="1">TANZANIA COMMERCIAL BANK</text>
+      </svg>
+    </div>
+    <div class="gate-title">MVNO Workshop 2026</div>
+    <div class="gate-sub">This document is confidential and for authorised recipients only.<br>Enter your access credentials to continue.</div>
+    <input class="gate-field" type="text" id="gate-user" placeholder="Username" autocomplete="off" spellcheck="false">
+    <input class="gate-field" type="password" id="gate-pass" placeholder="Password" autocomplete="off">
+    <button class="gate-btn" onclick="gateLogin()">Access Document →</button>
+    <div class="gate-err" id="gate-err">Incorrect credentials. Please try again.</div>
+    <div class="gate-meta">🔒 This document is password protected · Confidential · DSG / Broadbrand © 2026</div>
+  </div>
+  <div class="gate-box" id="gate-blocked-box" style="display:none;">
+    <div class="gate-logo">
+      <svg width="140" height="48" viewBox="0 0 200 64" fill="none"><rect x="0" y="0" width="14" height="64" rx="3" fill="#F5C842"/><rect x="0" y="0" width="40" height="14" rx="3" fill="#F5C842"/><rect x="0" y="50" width="40" height="14" rx="3" fill="#F5C842"/><rect x="186" y="0" width="14" height="64" rx="3" fill="#00B87C"/><rect x="160" y="0" width="40" height="14" rx="3" fill="#00B87C"/><rect x="160" y="50" width="40" height="14" rx="3" fill="#00B87C"/><text x="100" y="30" font-family="'Syne',sans-serif" font-weight="800" font-size="20" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle" letter-spacing="2">TCB</text><text x="100" y="50" font-family="'DM Sans',sans-serif" font-weight="400" font-size="8" fill="#8BA3C1" text-anchor="middle" letter-spacing="1">TANZANIA COMMERCIAL BANK</text></svg>
+    </div>
+    <div id="gate-blocked-msg" style="color:#ff6b6b;">
+      <h2 style="font-family:'Syne',sans-serif;font-size:1.4rem;margin-bottom:12px;">Access Expired</h2>
+      <p style="font-size:.88rem;color:#8ba3c1;line-height:1.7;">Your access to this document has expired or the maximum number of views has been reached.<br><br>Please contact DSG / Broadbrand for renewed access.</p>
+    </div>
+    <div class="gate-meta" style="margin-top:24px;">support@dsg.co.za · +2711 759 7000 · dsg.co.za</div>
+  </div>
+</div>
+
+<!-- DIAGONAL WATERMARK (always on) -->
+<div class="watermark-layer" id="wm" style="display:none;"></div>
+
+<!-- ═══════════════════════ NAV ═══════════════════════ -->
+<nav id="navbar">
+
+  <!-- LEFT: TCB Logo -->
+  <a href="#hero" class="nav-tcb">
+    <svg width="110" height="36" viewBox="0 0 200 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Left bracket -->
+      <rect x="0" y="0" width="14" height="64" rx="3" fill="#F5C842"/>
+      <rect x="0" y="0" width="38" height="14" rx="3" fill="#F5C842"/>
+      <rect x="0" y="50" width="38" height="14" rx="3" fill="#F5C842"/>
+      <!-- Right bracket -->
+      <rect x="186" y="0" width="14" height="64" rx="3" fill="#00B87C"/>
+      <rect x="162" y="0" width="38" height="14" rx="3" fill="#00B87C"/>
+      <rect x="162" y="50" width="38" height="14" rx="3" fill="#00B87C"/>
+      <!-- TCB -->
+      <text x="100" y="28" font-family="'Syne',sans-serif" font-weight="800" font-size="19" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle" letter-spacing="3">TCB</text>
+      <text x="100" y="50" font-family="'DM Sans',sans-serif" font-weight="500" font-size="7.5" fill="#8BA3C1" text-anchor="middle" letter-spacing="1.5">TANZANIA COMMERCIAL BANK</text>
+    </svg>
+  </a>
+
+  <!-- CENTRE: Partnership pill -->
+  <div class="nav-center">
+    <span class="nav-center-label">In partnership with</span>
+    <div class="nav-center-sep"></div>
+    <!-- MVNE logo SVG -->
+    <svg width="44" height="16" viewBox="0 0 88 28" fill="none">
+      <rect x="0" y="0" width="88" height="28" rx="4" fill="#1a2f4a"/>
+      <text x="44" y="14" font-family="'Syne',sans-serif" font-weight="800" font-size="10" fill="#00B87C" text-anchor="middle" dominant-baseline="middle" letter-spacing="1">MVNE</text>
+    </svg>
+    <div class="nav-center-sep"></div>
+    <!-- DSG logo SVG -->
+    <svg width="38" height="16" viewBox="0 0 76 28" fill="none">
+      <rect x="0" y="0" width="76" height="28" rx="4" fill="#cc1100"/>
+      <text x="38" y="14" font-family="'Syne',sans-serif" font-weight="800" font-size="11" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle" letter-spacing="1">DSG</text>
+    </svg>
+  </div>
+
+  <!-- NAV LINKS -->
+  <div class="nav-links">
+    <a href="#why">Why MVNOs</a>
+    <a href="#cvp">CVP</a>
+    <a href="#vas">VAS</a>
+    <a href="#usecases">TCB Cases</a>
+    <a href="#evp">EVP</a>
+    <a href="#models">Models</a>
+    <a href="#methodology">Methodology</a>
+  </div>
+
+  <!-- CTA -->
+  <a href="mailto:support@dsg.co.za" class="nav-cta">Get in touch</a>
+</nav>
+
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section id="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge"><span class="dot"></span>Workshop · 17 April 2026 · Dar es Salaam</div>
+      <h1 class="hero-h1">A banking-led MVNO<br><em>built around</em><br><span class="tl">the TCB customer.</span></h1>
+      <p class="hero-sub">The TCB Digital Mobile Platform — turning everyday connectivity into financial inclusion, transaction rewards and banking engagement. Not a telecom product. A financial access engine.</p>
+      <div class="hero-actions">
+        <a href="#usecases" class="btn-p">Explore Use Cases →</a>
+        <a href="#models" class="btn-g">View Pricing Models</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hs-num">20–40%</div><div class="hs-lbl">ARPU increase via layered VAS</div></div>
+        <div><div class="hs-num">3×</div><div class="hs-lbl">Higher LTV with bundled VAS</div></div>
+        <div><div class="hs-num">10</div><div class="hs-lbl">Differentiated TCB use cases</div></div>
+        <div><div class="hs-num">71%</div><div class="hs-lbl">More loyal via personalisation</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-mock">
+        <div class="ph-time">9:41</div>
+        <div class="ph-brand">TCB MOBILE</div>
+        <div class="ph-welcome">Welcome back</div>
+        <div class="ph-card">
+          <div class="ph-lbl">Mobile Balance</div>
+          <div class="ph-val">3.6 GB</div>
+          <div class="ph-sub">of 5 GB · TCB SME Connect</div>
+          <div class="ph-prog"><div class="ph-prog-bar"></div></div>
+        </div>
+        <div class="ph-row"><div class="ph-rl">Banking rewards this month</div><div class="ph-rv g">+450 MB</div></div>
+        <div class="ph-row"><div class="ph-rl">Transactions this month</div><div class="ph-rv">14 deposits</div></div>
+        <div class="ph-row"><div class="ph-rl">Zero-rated banking</div><div class="ph-rv g">✓ Active</div></div>
+        <div class="ph-row"><div class="ph-rl">Loan repayment streak</div><div class="ph-rv g">3 months →</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ ABOUT DSG ═══════════════════════ -->
+<section id="about" class="sm">
+  <div class="con">
+    <div class="tc">
+      <div>
+        <div class="slabel">About DSG / Broadbrand</div>
+        <h2>25+ years building <em>Africa's telco</em> future</h2>
+        <p class="intro">From founding in 1998 to launching Africa's leading MVNE platform, DSG and Broadbrand bring deep operational expertise, award-winning CX capability, and proven MVNO success across the continent.</p>
+        <div class="tl-wrap rev">
+          <div class="tl-item"><div class="tl-year">1998</div><div class="tl-text">Founded — CXG and UPay established</div></div>
+          <div class="tl-item"><div class="tl-year">2006</div><div class="tl-text">Cell One Namibia (GSM)</div></div>
+          <div class="tl-item"><div class="tl-year">2007</div><div class="tl-text">Sasatel Tanzania (CDMA)</div></div>
+          <div class="tl-item"><div class="tl-year">2012</div><div class="tl-text">Broadbrand launched</div></div>
+          <div class="tl-item"><div class="tl-year">2013</div><div class="tl-text">eMVNE — Mobile Virtual Network Enabler</div></div>
+          <div class="tl-item"><div class="tl-year">2018</div><div class="tl-text">Digital Resilience launched</div></div>
+          <div class="tl-item"><div class="tl-year">2024</div><div class="tl-text">eInsurer — Cyber Insurance launched</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="stats rev" style="grid-template-columns:1fr 1fr;margin-bottom:24px;">
+          <div class="stat"><div class="stat-n">1,000+</div><div class="stat-l">Contact centre seats, JHB &amp; Cape Town</div></div>
+          <div class="stat"><div class="stat-n">6</div><div class="stat-l">Office locations across Africa &amp; Seychelles</div></div>
+          <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Industry sectors served</div></div>
+          <div class="stat"><div class="stat-n">25+</div><div class="stat-l">Years of telco &amp; CX expertise</div></div>
+        </div>
+        <div class="card rev">
+          <div class="slabel" style="margin-bottom:12px;">Awards &amp; Recognition</div>
+          <p>Contact Centre World Silver &amp; Gold · BPESA National Winner · CCMG 1st Place 2017 · 2019 Engage Awards · CXA Customer Experience Africa · BPESA Alchemy Award 2025 · MMA Smarties SA Finalist 2025 · CCMG National Contact Centre Awards 2024 Finalist</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ WHY MVNOs ═══════════════════════ -->
+<section id="why" class="sl">
+  <div class="con">
+    <div class="slabel">Why MVNOs Matter</div>
+    <h2>MVNOs are no longer side projects. <em>They are strategic digital brands.</em></h2>
+    <p class="intro">Success requires more than network access or a clever app. It takes alignment across five dimensions — and TCB is uniquely positioned to execute on all five.</p>
+    <div class="stats rev">
+      <div class="stat"><div class="stat-n">40%+</div><div class="stat-l">Churn common without great CX — MVNO Nation Study</div></div>
+      <div class="stat"><div class="stat-n">20–40%</div><div class="stat-l">ARPU increase through layered VAS</div></div>
+      <div class="stat"><div class="stat-n">3×</div><div class="stat-l">Higher LTV per user with bundled VAS</div></div>
+      <div class="stat"><div class="stat-n">71%</div><div class="stat-l">More likely to report loyalty via personalisation — Zendesk</div></div>
+    </div>
+    <div class="g3 rev" style="margin-bottom:40px;">
+      <div class="card"><div class="card-icon">📡</div><h3>CVP</h3><p>A value proposition that resonates deeply with your target audience. Not connectivity — relevance.</p></div>
+      <div class="card"><div class="card-icon">📊</div><h3>Marketing</h3><p>Scalable, data-driven customer acquisition and retention. AI-powered campaigns that scale.</p></div>
+      <div class="card"><div class="card-icon">💎</div><h3>Customer Value</h3><p>Maximise ARPU, engagement, and brand lifetime value through smart segmentation and CVM.</p></div>
+      <div class="card"><div class="card-icon">✨</div><h3>Customer Experience</h3><p>Frictionless, digital-first and emotionally intelligent — from onboarding to loyalty journeys.</p></div>
+      <div class="card"><div class="card-icon">🔗</div><h3>VAS</h3><p>Smart service bundling that unlocks loyalty and margin. Every service is a reason to stay.</p></div>
+      <div class="card" style="background:linear-gradient(135deg,#0a1628,#0d2440);border-color:var(--border);"><div class="card-icon" style="background:rgba(255,80,80,.1);border-color:rgba(255,80,80,.2);">❌</div><h3 style="color:#fff;">The MVNO Fallacy</h3><p>NOT just tech, copying the MNO, or low prices. IS about building a business with its own brand logic, segments, and economics.</p></div>
+    </div>
+    <div class="qb" style="background:rgba(0,184,124,.06);border-color:rgba(0,184,124,.2);">"MVNOs don't compete on price. They win on value." — #DoingSomethingGreat</div>
+  </div>
+</section>
+
+
+<!-- CVP -->
+<section id="cvp" class="sd">
+  <div class="con">
+    <div class="tc">
+      <div>
+        <div class="slabel">Customer Value Proposition</div>
+        <h2>Great CVPs don't just sell connectivity. <em>They sell relevance.</em></h2>
+        <p class="intro">The CVP is TCB's strategic weapon. It must align with brand equity, how customers bank, and Tanzania's unmet digital needs.</p>
+        <div class="qb">"AN MVNO IS A DIGITAL DELIVERY PLATFORM OFFERING UNPRECEDENTED VALUE, ANALYTICS &amp; ENGAGEMENT"</div>
+        <div class="steps rev">
+          <div class="step"><div class="step-n">1</div><div><h4>High Perceived Value, Low Comparative Cost</h4><p>2GB data retail value R160/pm vs R39 actual cost — an extraordinary rewards mechanism for banking behaviour.</p></div></div>
+          <div class="step"><div class="step-n">2</div><div><h4>Passive Behavioural Data Collection</h4><p>The SIM becomes a data asset enabling one-to-one personalised marketing and smarter banking decisions.</p></div></div>
+          <div class="step"><div class="step-n">3</div><div><h4>Greater Customer Entanglement</h4><p>Deep daily integration into banking behaviour reduces churn and dramatically increases lifetime value.</p></div></div>
+          <div class="step"><div class="step-n">4</div><div><h4>Community Benefits &amp; Financial Inclusion</h4><p>A vehicle to stimulate community participation, SME growth, and financial inclusion at scale across Tanzania.</p></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="slabel" style="margin-bottom:20px;">CVP Validation Framework</div>
+        <div class="tw rev" style="margin-bottom:32px;">
+          <table>
+            <thead><tr><th>Dimension</th><th>Validation Question</th></tr></thead>
+            <tbody>
+              <tr><td>Offering</td><td>Is the offering differentiated — not just cheaper?</td></tr>
+              <tr><td>Value</td><td>Can we prove value through case studies or trials?</td></tr>
+              <tr><td>Alignment</td><td>Are we aligned with target segment expectations?</td></tr>
+              <tr><td>Goals</td><td>Does the CVP support long-term brand and margin goals?</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="slabel" style="margin-bottom:16px;">Combined CVP Advantages</div>
+        <div class="g2 rev">
+          <div class="card"><h3 style="font-size:.88rem;margin-bottom:6px;">Non-comparative Proposition</h3><p>TCB's banking relationship embedded in connectivity — competitors can't replicate it.</p></div>
+          <div class="card"><h3 style="font-size:.88rem;margin-bottom:6px;">Greater Customer Insight</h3><p>Rich behavioural data from SIM usage enables smarter products and personalised offers.</p></div>
+          <div class="card"><h3 style="font-size:.88rem;margin-bottom:6px;">Improved Security</h3><p>Bundled cybersecurity and identity tools protect customers while differentiating TCB.</p></div>
+          <div class="card"><h3 style="font-size:.88rem;margin-bottom:6px;">Converged Content</h3><p>Zero-rated banking + financial education + wellness create a daily-use super platform.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- VAS -->
+<section id="vas" class="sl">
+  <div class="con">
+    <div class="slabel">Value-Added Services</div>
+    <h2>VAS = <em>Revenue</em> + Differentiation + Retention</h2>
+    <p class="intro">MVNOs win when they monetise beyond connectivity. A single VAS can be the reason a subscriber stays — or leaves. TCB has the ecosystem to stack unique VAS no pure telco can replicate.</p>
+    <div class="stats rev">
+      <div class="stat"><div class="stat-n">📈</div><div class="stat-l">New Revenue: Insurance, OTT, Security, eSIM</div></div>
+      <div class="stat"><div class="stat-n">🧲</div><div class="stat-l">Stickiness: Loyalty, Device Finance, Safe Family</div></div>
+      <div class="stat"><div class="stat-n">💰</div><div class="stat-l">Higher Margins: Digital-only, low support cost</div></div>
+      <div class="stat"><div class="stat-n">🔁</div><div class="stat-l">Lower Churn: Relevant services = daily use</div></div>
+    </div>
+    <div class="vas-g rev" style="margin-bottom:48px;">
+      <div class="vas-card"><div class="vas-ic">🏦</div><div class="vas-t">Mobile Financial Services</div><div class="vas-d">Wallets, loans, insurance, payments via UPay. The natural extension of banking into mobile.</div><div class="vas-tags"><span class="tag">Revenue</span><span class="tag tl">Stickiness</span></div></div>
+      <div class="vas-card"><div class="vas-ic">🔒</div><div class="vas-t">Cybersecurity &amp; Parental Controls</div><div class="vas-d">Bitdefender #1 ranked protection. Africa exclusive via Digital Resilience. Antivirus, VPN, parental controls.</div><div class="vas-tags"><span class="tag">Revenue</span><span class="tag tl">Stickiness</span></div></div>
+      <div class="vas-card"><div class="vas-ic">🛡️</div><div class="vas-t">Personal Cyber Insurance</div><div class="vas-d">eInsurer — theft of funds, ID theft, cyberbullying, ransomware. Three tiers: MEGA, GIGA, TERA.</div><div class="vas-tags"><span class="tag">Revenue</span><span class="tag yl">High Margin</span></div></div>
+      <div class="vas-card"><div class="vas-ic">🚗</div><div class="vas-t">Driver Safety &amp; Telematics</div><div class="vas-d">Sentiance on-device AI — driving scores, crash detection, lifestyle insights. Used by Uber, Absa, State Farm.</div><div class="vas-tags"><span class="tag">Revenue</span><span class="tag tl">Differentiation</span></div></div>
+      <div class="vas-card"><div class="vas-ic">📶</div><div class="vas-t">eSIM &amp; Roaming Packs</div><div class="vas-d">Dual eSIM for local + global coverage. Essential for cross-border traders and remittance customers.</div><div class="vas-tags"><span class="tag">Revenue</span><span class="tag bl">Cross-border</span></div></div>
+      <div class="vas-card"><div class="vas-ic">🎮</div><div class="vas-t">Loyalty &amp; Cashback</div><div class="vas-d">Gamified rewards — points, streaks, levels. Powered by Xanite's real-time campaign engine.</div><div class="vas-tags"><span class="tag tl">Retention</span><span class="tag">Stickiness</span></div></div>
+      <div class="vas-card"><div class="vas-ic">❤️</div><div class="vas-t">Health &amp; Wellness</div><div class="vas-d">Telehealth, fitness, mental wellbeing — turning the SIM into a daily health companion.</div><div class="vas-tags"><span class="tag tl">Retention</span><span class="tag">Stickiness</span></div></div>
+      <div class="vas-card"><div class="vas-ic">🏢</div><div class="vas-t">SME Tools</div><div class="vas-d">Email, CRM, invoicing — a business productivity suite for SMEs banking with TCB.</div><div class="vas-tags"><span class="tag">Revenue</span><span class="tag yl">High Margin</span></div></div>
+    </div>
+    <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.25rem;color:#0a1628;margin-bottom:24px;">Global VAS Benchmarks</h3>
+    <div class="tw rev">
+      <table>
+        <thead><tr><th>Operator</th><th>Country</th><th>VAS Strategy</th></tr></thead>
+        <tbody>
+          <tr><td>M-Pesa</td><td>Kenya</td><td>$900M+ revenue from nano-loans and mobile wallets</td></tr>
+          <tr><td>Jio</td><td>India</td><td>Bundles OTT (Disney+, Netflix, JioCinema) to boost retention</td></tr>
+          <tr><td>DStv Internet</td><td>SA/Africa</td><td>Bundles satellite TV and LTE connectivity</td></tr>
+          <tr><td>Telkomsel</td><td>Indonesia</td><td>Health platform bundled with SIMs</td></tr>
+          <tr><td>Tesco Mobile</td><td>UK</td><td>Ties loyalty points to top-ups, drives retail synergy</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- PARTNERS -->
+<section id="partners" class="sm">
+  <div class="con">
+    <div class="slabel">Technology Partners</div>
+    <h2>The ecosystem that powers <em>TCB Mobile</em></h2>
+    <p class="intro">DSG brings an exclusive partner ecosystem that no competitor can replicate — from Africa's only Bitdefender distributor to the world's leading on-device telematics AI.</p>
+    <div class="pt-g rev">
+      <div class="pt-card">
+        <div><div class="pt-nm">Bitdefender</div><div class="pt-tg">via Digital Resilience — Africa Exclusive</div></div>
+        <div class="pt-d">The world's #1 ranked device protection. Multi-access security suite: antivirus, VPN, identity protection, parental controls. Cross-platform: Windows, Android, iOS, Chromebook. <strong style="color:var(--white);">66% of parents worry about what apps their children are using.</strong></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;"><span class="tag">Anti-virus</span><span class="tag tl">Parental Controls</span><span class="tag">VPN</span></div>
+        <div style="font-size:.8rem;color:var(--muted);">eInsurer tiers: MEGA · GIGA · TERA (hippo.co.za, KingPrice, blink by MiWay)</div>
+      </div>
+      <div class="pt-card">
+        <div><div class="pt-nm">Sentiance</div><div class="pt-tg">On-device AI Telematics</div></div>
+        <div class="pt-d">Focuses on the driver, not the vehicle. Driving scores, crash detection, 64 segment types, 60+ venue types. Used by Uber, Delivery Hero, Absa, State Farm, Samsung, Microsoft.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;"><span class="tag tl">Insurance</span><span class="tag tl">Ride-hail</span><span class="tag tl">Family Safety</span></div>
+      </div>
+      <div class="pt-card">
+        <div><div class="pt-nm">Digital Mobile</div><div class="pt-tg">Light MVNO Launch Platform</div></div>
+        <div class="pt-d">Launch in weeks, not months. API-first architecture, dual eSIM capability, VAS-ready with pre-integrated cybersecurity, fintech, OTT and loyalty. 2-month build vs 6-month full MVNO.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;"><span class="tag">2 months to launch</span><span class="tag">R250K build cost</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- TCB USE CASES -->
+<section id="usecases" class="sa">
+  <div class="con">
+    <div class="slabel">Tanzania Commercial Bank</div>
+    <h2>A unique value proposition <em>for TCB</em></h2>
+    <p class="intro">Position TCB not as a telecom provider — but as the TCB Digital Financial Access Platform. The MVNO layer drives actual banking behaviour and extends reach into underserved markets.</p>
+    <div class="qb" style="margin-bottom:56px;">"Your Bank. Your Connection. Your Everyday Advantage"
+      <cite>This is not a telecom product. It's a financial inclusion and transaction engine embedded into everyday connectivity.</cite>
+    </div>
+    <div class="uc-grid rev">
+      <div class="uc-card" data-num="01"><div class="uc-title">Banking SIM — Financial Inclusion Layer</div><div class="uc-concept">A branded TCB SIM/eSIM enabling always-on access to banking services for underbanked and rural customers.</div><ul class="uc-list"><li>Zero-rated access to mobile banking (USSD + app)</li><li>Airtime/data rewards for account activity</li><li>Simplified mobile onboarding</li></ul><div class="uc-out">✓ Banking access embedded into the mobile layer</div></div>
+      <div class="uc-card" data-num="02"><div class="uc-title">Transaction Incentive Engine</div><div class="uc-concept">Drive transactional behaviour through connectivity rewards — banks process transactions, TCB MVNO actively drives them.</div><ul class="uc-list"><li>Data/airtime rewards for deposits and transfers</li><li>Incentives for digital payment vs cash</li><li>Rewards for savings consistency</li></ul><div class="uc-out">✓ Increased volumes + reduced cash reliance</div></div>
+      <div class="uc-card" data-num="03"><div class="uc-title">SME &amp; Merchant Connectivity Platform</div><div class="uc-concept">Connectivity solutions for SMEs and informal traders banking with TCB.</div><ul class="uc-list"><li>Business SIM plans + POS connectivity</li><li>Real-time transaction alerts</li><li>Business usage analytics</li></ul><div class="uc-out">✓ TCB becomes a business growth enabler</div></div>
+      <div class="uc-card" data-num="04"><div class="uc-title">Agent Banking Enablement Layer</div><div class="uc-concept">Dedicated connectivity platform for TCB's agent banking network.</div><ul class="uc-list"><li>Reliable SIM connectivity for agents</li><li>Real-time transaction processing</li><li>Liquidity and float monitoring</li></ul><div class="uc-out">✓ Improved agent performance + reduced downtime</div></div>
+      <div class="uc-card" data-num="05"><div class="uc-title">Salary &amp; Employee Banking Integration</div><div class="uc-concept">Connectivity bundled into salary accounts and employee banking — turning payroll into loyalty.</div><ul class="uc-list"><li>Monthly data/airtime linked to salary deposits</li><li>Incentives for using TCB as primary bank</li><li>Employee financial wellness tools</li></ul><div class="uc-out">✓ Increased salary account stickiness</div></div>
+      <div class="uc-card" data-num="06"><div class="uc-title">Credit &amp; Lending Behaviour Platform</div><div class="uc-concept">MVNO used to drive responsible borrowing and repayment behaviour.</div><ul class="uc-list"><li>Data rewards for on-time loan payments</li><li>Airtime incentives for credit milestones</li><li>Behaviour-linked credit scoring</li></ul><div class="uc-out">✓ Improved repayment rates + reduced default risk</div></div>
+      <div class="uc-card" data-num="07"><div class="uc-title">Cross-Border &amp; Remittance Connectivity</div><div class="uc-concept">Seamless connectivity for customers transacting across borders.</div><ul class="uc-list"><li>Affordable cross-border SIM usage</li><li>Incentives for remittance transactions</li><li>Integration with regional payment systems</li></ul><div class="uc-out">✓ Strengthened regional trade + remittance flows</div></div>
+      <div class="uc-card" data-num="08"><div class="uc-title">Youth &amp; Student Banking Platform</div><div class="uc-concept">Digital-first connectivity targeting younger customers.</div><ul class="uc-list"><li>Data bundles linked to student/youth accounts</li><li>Rewards for savings + digital engagement</li><li>Zero-rated education and financial tools</li></ul><div class="uc-out">✓ Early acquisition + long-term lifecycle growth</div></div>
+      <div class="uc-card" data-num="09"><div class="uc-title">Loyalty &amp; Retention Engine</div><div class="uc-concept">MVNO as the core customer retention mechanism — tiered rewards that make banking stickier.</div><ul class="uc-list"><li>Monthly connectivity benefits tied to active accounts</li><li>Tiered rewards based on account usage</li><li>Long-term loyalty incentives</li></ul><div class="uc-out">✓ Reduced churn + increased lifetime value</div></div>
+      <div class="uc-card" data-num="10"><div class="uc-title">TCB Digital Banking Ecosystem: Future State</div><div class="uc-concept">MVNO as the backbone of a fully integrated digital banking ecosystem.</div><ul class="uc-list"><li>Customer behaviour analytics</li><li>Personalised financial product recommendations</li><li>Digital marketplace integrations</li></ul><div class="uc-out">✓ TCB evolves to digital financial ecosystem enabler</div></div>
+    </div>
+    <div style="margin-top:52px;">
+      <div class="slabel" style="margin-bottom:20px;">Example MVNO Packages</div>
+      <div class="pkg-g rev">
+        <div class="pkg-card"><div class="pkg-nm">TCB Access Connect</div><div class="pkg-tg">Retail Customers</div><div class="pkg-v">Zero-rated banking + data rewards + account incentives</div></div>
+        <div class="pkg-card"><div class="pkg-nm">TCB SME Connect</div><div class="pkg-tg">Business &amp; Traders</div><div class="pkg-v">Payment + business connectivity + POS tools</div></div>
+        <div class="pkg-card"><div class="pkg-nm">TCB Agent Connect</div><div class="pkg-tg">Banking Agents</div><div class="pkg-v">Reliable connectivity + float monitoring</div></div>
+        <div class="pkg-card"><div class="pkg-nm">TCB Salary Connect</div><div class="pkg-tg">Employed Customers</div><div class="pkg-v">Salary-linked data rewards + financial wellness</div></div>
+        <div class="pkg-card"><div class="pkg-nm">TCB Cross-Border</div><div class="pkg-tg">Traders &amp; Remittance</div><div class="pkg-v">Regional connectivity + remittance incentives</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- EVP -->
+<section id="evp" class="sd">
+  <div class="con">
+    <div class="slabel">Employee Value Proposition</div>
+    <h2>Not just an MVNO. <em>An Employee Engagement Platform</em> with connectivity embedded.</h2>
+    <p class="intro">Mobile data becomes a reward, a benefit, and a loyalty currency. TCB can deploy a unified employee super app that transforms how the organisation engages its workforce.</p>
+    <div class="evp-g rev" style="margin-bottom:48px;">
+      <div class="evp-card"><div class="evp-n">1</div><div class="evp-t">Buy Now, Pay Later</div><div class="evp-s">Reduce cost of living. Value data, voice, family SIMs, device finance, travel eSIM + cybersecurity.</div></div>
+      <div class="evp-card"><div class="evp-n">2</div><div class="evp-t">Rewarding the Right Behaviour</div><div class="evp-s">Earn data for performance, training, wellness, surveys, referrals. High value, low cost.</div></div>
+      <div class="evp-card"><div class="evp-n">3</div><div class="evp-t">Unified Super App</div><div class="evp-s">HR self-service, payslips, comms, intranet, wellness, gamification, learning, identity.</div></div>
+      <div class="evp-card"><div class="evp-n">4</div><div class="evp-t">Safer Workforce</div><div class="evp-s">Bitdefender built-in: device protection, identity monitoring, phishing awareness, secure auth.</div></div>
+      <div class="evp-card"><div class="evp-n">5</div><div class="evp-t">Workforce Intelligence</div><div class="evp-s">POPIA-compliant behavioural insights, heatmaps, campaign ROI, churn prediction.</div></div>
+    </div>
+    <div class="emp-g rev">
+      <div class="emp-card"><div class="emp-role">👥 For HR</div><ul><li>Improved engagement + measurable participation</li><li>Lower turnover</li><li>Digital workforce enablement</li></ul></div>
+      <div class="emp-card"><div class="emp-role">💼 For CFO</div><ul><li>Low CapEx model + predictable OpEx</li><li>Revenue share potential</li><li>Lower cost-to-serve via digital</li></ul></div>
+      <div class="emp-card"><div class="emp-role">🎯 For CEO</div><ul><li>Defensive digital positioning</li><li>Data ownership + workforce loyalty moat</li><li>Platform expansion capability</li></ul></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CX -->
+<section id="cx" class="sl">
+  <div class="con">
+    <div class="slabel">Customer Experience</div>
+    <h2>CX as a <em>primary differentiator</em></h2>
+    <p class="intro">Today's consumer expects relevance and a ubiquitous frictionless experience across every channel. An MVNO's business design must be re-invented continuously to remain customer relevant.</p>
+    <div class="cx-g rev" style="margin-bottom:48px;">
+      <div class="cx-item"><div class="cx-n" style="font-size:1.6rem;">👁️</div><div class="cx-t">Single Customer View</div><div class="cx-d">Unified profile across all channels and interactions</div></div>
+      <div class="cx-item"><div class="cx-n" style="font-size:1.6rem;">🔗</div><div class="cx-t">Integrated Channels</div><div class="cx-d">Stage 3 &amp; 4 MVNO CX Maturity across all touchpoints</div></div>
+      <div class="cx-item"><div class="cx-n">70%+</div><div class="cx-t">BOT &amp; Self-Service</div><div class="cx-d">Significant interaction support without agents</div></div>
+      <div class="cx-item"><div class="cx-n" style="font-size:1.6rem;">🎯</div><div class="cx-t">Hyper-Personalised</div><div class="cx-d">AI-driven campaigns tailored to individual behaviour</div></div>
+      <div class="cx-item"><div class="cx-n" style="font-size:1.6rem;">⚡</div><div class="cx-t">On-Demand CX</div><div class="cx-d">Always-on: WhatsApp, USSD, voice, app</div></div>
+    </div>
+    <div class="tc">
+      <div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;color:#0a1628;margin-bottom:16px;">Omni-Channel Stack</h3>
+        <div class="g2 rev">
+          <div class="card" style="padding:18px;"><h3 style="font-size:.83rem;margin-bottom:8px;">Channels</h3><p style="font-size:.78rem;">Voice · Email · WhatsApp · Facebook · Instagram · Live Chat · Portals · USSD · SMS · BOT</p></div>
+          <div class="card" style="padding:18px;"><h3 style="font-size:.83rem;margin-bottom:8px;">AI Capabilities</h3><p style="font-size:.78rem;">AI Agent · CSAT · Sentiment · Auto QA · Knowledge Management · PowerBI</p></div>
+          <div class="card" style="padding:18px;"><h3 style="font-size:.83rem;margin-bottom:8px;">Physical Capacity</h3><p style="font-size:.78rem;">1,000+ seats onsite/hybrid — JHB 500 · Cape Town 680</p></div>
+          <div class="card" style="padding:18px;"><h3 style="font-size:.83rem;margin-bottom:8px;">Integrations</h3><p style="font-size:.78rem;">Salesforce · Zendesk · ServiceNow · SAP G4C · Dialogflow · Office 365</p></div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;color:#0a1628;margin-bottom:16px;">Xanite — The MVNO Value Engine</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;" class="rev">
+          <div class="xan-card" style="background:#f0faf6;border-color:#c5e8d8;"><h4 style="color:#0a1628;">Dynamic Segmentation Engine</h4><ul><li style="color:#4a6080;">Segment by recharge, usage, ARPU — live preview, A/B buckets</li><li style="color:#4a6080;">No dev team needed</li></ul></div>
+          <div class="xan-card" style="background:#f0faf6;border-color:#c5e8d8;"><h4 style="color:#0a1628;">Campaign Execution Layer</h4><ul><li style="color:#4a6080;">WhatsApp · SFMC · SMS · USSD — multi-language templates</li><li style="color:#4a6080;">Built-in approval workflow</li></ul></div>
+          <div class="xan-card" style="background:#f0faf6;border-color:#c5e8d8;"><h4 style="color:#0a1628;">Roadmap: Coming Soon</h4><ul><li style="color:#4a6080;">Offer Matching Engine · Gamification Toolkit</li><li style="color:#4a6080;">Lifecycle Journeys · AI Copilot</li></ul></div>
+        </div>
+        <p style="margin-top:12px;font-size:.8rem;color:#4a6080;">Early access: <a href="mailto:Vincent@vincentmaher.com" style="color:var(--green);">Vincent@vincentmaher.com</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- METHODOLOGY -->
+<section id="methodology" class="sm">
+  <div class="con">
+    <div class="slabel">Project Methodology</div>
+    <h2>From viability to <em>full commercial launch</em> in 10 months</h2>
+    <p class="intro">MVNE follows a structured engagement model with clear decision gates — combining TCB's own business intelligence with telecommunications models to deliver a bankable 60-month business plan.</p>
+    <div class="mth rev" style="margin-bottom:48px;">
+      <div class="mth-s"><div class="mth-m">M1–M3</div><div class="mth-n">Commercial Viability Phase</div></div>
+      <div class="mth-s gate"><div class="mth-m">M3</div><div class="mth-n">Board Approval</div></div>
+      <div class="mth-s"><div class="mth-m">M4</div><div class="mth-n">Implementation Scoping</div></div>
+      <div class="mth-s"><div class="mth-m">M4–M7</div><div class="mth-n">Build, Integrate &amp; Test</div></div>
+      <div class="mth-s gate"><div class="mth-m">M7</div><div class="mth-n">EXCO Approval</div></div>
+      <div class="mth-s"><div class="mth-m">M8–M9</div><div class="mth-n">Soft Launch</div></div>
+      <div class="mth-s gate"><div class="mth-m">M9</div><div class="mth-n">Board Approval</div></div>
+      <div class="mth-s launch"><div class="mth-m">M10 ⭐</div><div class="mth-n">Full Commercial Launch</div></div>
+    </div>
+    <div class="tc">
+      <div>
+        <div class="slabel" style="margin-bottom:20px;">Project Deliverables</div>
+        <div class="dl-list rev">
+          <div class="dl-item"><div class="dl-code">MVP</div><div class="dl-body"><h4>Minimum Viable Customer Launch Proposition</h4><p>Packages, deals and specific products forming the launch proposition</p></div></div>
+          <div class="dl-item"><div class="dl-code">OM</div><div class="dl-body"><h4>Operating Model</h4><p>High-level Technical Architecture &amp; relational diagram between parties</p></div></div>
+          <div class="dl-item"><div class="dl-code">GTMP</div><div class="dl-body"><h4>Go-to-Market Plan</h4><p>Sales, Distribution, Customer Care and Subscriber Lifecycle Management</p></div></div>
+          <div class="dl-item"><div class="dl-code">ICX</div><div class="dl-body"><h4>Integrated Customer Experience</h4><p>Customer Journeys and high-level business processes</p></div></div>
+          <div class="dl-item"><div class="dl-code">BM</div><div class="dl-body"><h4>60-Month Business Plan</h4><p>Granular commercial viability analysis with full sensitivity analysis</p></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="slabel" style="margin-bottom:20px;">Operating Model</div>
+        <div class="tw rev" style="margin-bottom:28px;">
+          <table>
+            <thead><tr><th>Layer</th><th>Party</th><th>Responsibilities</th></tr></thead>
+            <tbody>
+              <tr><td>Brand &amp; GTM</td><td><span class="g">TCB</span></td><td>Loyalty · Marketing · Sales · Credit · Collections</td></tr>
+              <tr><td>Operations</td><td><span class="g">MVNE</span></td><td>Technical Ops · Network · Subscriber Mgmt · Billing · CX</td></tr>
+              <tr><td>Infrastructure</td><td><span class="g">MTN</span></td><td>Network · Wholesale Billing · SIM Procurement</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="slabel" style="margin-bottom:14px;">Commercial Viability Covers</div>
+        <div class="g2 rev" style="gap:10px;">
+          <div class="card" style="padding:14px 16px;"><p style="font-size:.78rem;">Acquisition &amp; distribution modelling</p></div>
+          <div class="card" style="padding:14px 16px;"><p style="font-size:.78rem;">Monthly cash flow forecasting</p></div>
+          <div class="card" style="padding:14px 16px;"><p style="font-size:.78rem;">Bad debt, fraud &amp; collections</p></div>
+          <div class="card" style="padding:14px 16px;"><p style="font-size:.78rem;">Revenue &amp; proposition profitability</p></div>
+          <div class="card" style="padding:14px 16px;"><p style="font-size:.78rem;">Peak funding requirements</p></div>
+          <div class="card" style="padding:14px 16px;"><p style="font-size:.78rem;">EXCO &amp; Board presentation</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ENGAGEMENT MODELS -->
+<section id="models" class="sl">
+  <div class="con">
+    <div class="slabel">Engagement Models &amp; Pricing</div>
+    <h2>Three paths to <em>launch TCB Mobile</em></h2>
+    <p class="intro">Choose the model that fits TCB's timeline, investment appetite, and brand requirements. Charged at whichever is higher — monthly minimum or per-subscriber cost.</p>
+    <div class="prc-g rev" style="margin-bottom:48px;">
+      <div class="prc-card">
+        <div class="prc-lbl">Option 1 — Full MVNO</div>
+        <div class="prc-cost">R2.7M <span>build cost</span></div>
+        <div class="prc-tl">Brand new MVNO · 6 months to launch</div>
+        <ul class="prc-f"><li>R400,000/month minimum</li><li>R12 per subscriber/month</li><li>Your own network name</li><li>Fully branded SIM card</li><li>Complete operational control</li></ul>
+      </div>
+      <div class="prc-card ft">
+        <div class="prc-badge">Recommended</div>
+        <div class="prc-lbl">Option 2 — Digital Mobile Partnership</div>
+        <div class="prc-cost">R250K <span>build cost</span></div>
+        <div class="prc-tl">2 months to launch · fastest path to market</div>
+        <ul class="prc-f"><li>R75,000/month minimum</li><li>R7.50 per subscriber/month</li><li>Digital Mobile network</li><li>Branded or Digital Mobile SIM</li><li>VAS pre-integrated from day one</li></ul>
+      </div>
+      <div class="prc-card">
+        <div class="prc-lbl">Option 3 — Technology Only</div>
+        <div class="prc-cost">TBD <span>solution dependent</span></div>
+        <div class="prc-tl">Brand new MVNO · 6 months to launch</div>
+        <ul class="prc-f"><li>R200–400K/month minimum</li><li>R4.50–R12 per subscriber/month</li><li>Solution dependent branding</li><li>Modular — optional OSS/BSS/PCRF</li><li>Technology ownership</li></ul>
+      </div>
+    </div>
+    <div class="tw rev">
+      <table>
+        <thead><tr><th>Service</th><th>Full MVNO</th><th>Digital Mobile</th><th>Technology Only</th></tr></thead>
+        <tbody>
+          <tr><td>OSS / BSS / PCRF / OCS / IPaaS</td><td><span class="g">✓ All included</span></td><td><span class="g">✓ All included</span></td><td>Optional</td></tr>
+          <tr><td>HLR</td><td><span class="mu">Not included</span></td><td><span class="mu">Not included</span></td><td><span class="mu">Not included</span></td></tr>
+          <tr><td>CVM (Xanite)</td><td>Optional add-on</td><td>Optional add-on</td><td>Optional add-on</td></tr>
+          <tr><td>Marketing as a Service</td><td>Optional add-on</td><td>Optional add-on</td><td>Optional add-on</td></tr>
+          <tr><td>Finance as a Service</td><td>Optional add-on</td><td>Optional add-on</td><td>Optional add-on</td></tr>
+          <tr><td>GM as a Service</td><td>Optional add-on</td><td>Optional add-on</td><td>Optional add-on</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- KEY TAKEAWAYS -->
+<section id="takeaways" class="sa">
+  <div class="con">
+    <div class="slabel">Key Takeaways</div>
+    <h2>MVNOs don't compete on price. <em>They win on value.</em></h2>
+    <p class="intro">The workshop explored what it really takes to build a successful MVNO — and why TCB is uniquely positioned to lead financial inclusion in Tanzania through mobile.</p>
+    <div class="g3 rev" style="gap:24px;margin-bottom:64px;">
+      <div class="card"><div class="card-icon">🎯</div><h3>Strategic CVPs</h3><p>Aligned with TCB's brand equity and the way Tanzanian customers live, bank, and interact daily.</p></div>
+      <div class="card"><div class="card-icon">🤖</div><h3>AI-Powered Marketing</h3><p>Xanite CVM scales acquisition and retention through real-time segmentation and personalised campaigns.</p></div>
+      <div class="card"><div class="card-icon">✨</div><h3>Customer Experience</h3><p>As the primary differentiator — frictionless, digital-first, emotionally intelligent across every touchpoint.</p></div>
+      <div class="card"><div class="card-icon">💎</div><h3>Value-Added Services</h3><p>Bitdefender, eInsurer, Sentiance, and the full VAS stack turn connectivity into loyalty.</p></div>
+      <div class="card"><div class="card-icon">🚀</div><h3>Platform Thinking</h3><p>Digital Mobile enables launch in weeks, not months — minimal CapEx, maximum market impact.</p></div>
+      <div class="card" style="background:linear-gradient(135deg,rgba(0,184,124,.14),rgba(0,201,177,.08));border-color:rgba(0,184,124,.3);"><div class="card-icon">🏦</div><h3>The TCB Advantage</h3><p>TCB already has the banking infrastructure. The MVNO layer drives transactions, extends reach, and creates a recurring revenue stream tied to financial activity.</p></div>
+    </div>
+    <div style="text-align:center;">
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.1em;">Ready to build TCB Mobile?</p>
+      <h3 style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;margin-bottom:28px;">Let's start the <em style="color:var(--green);">commercial viability</em> phase.</h3>
+      <a href="mailto:support@dsg.co.za" class="btn-p" style="font-size:1rem;padding:16px 36px;">Contact DSG / Broadbrand →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-g">
+    <div class="ft-brand">
+      <svg width="100" height="32" viewBox="0 0 200 64" fill="none" style="margin-bottom:12px;"><rect x="0" y="0" width="14" height="64" rx="3" fill="#F5C842"/><rect x="0" y="0" width="38" height="14" rx="3" fill="#F5C842"/><rect x="0" y="50" width="38" height="14" rx="3" fill="#F5C842"/><rect x="186" y="0" width="14" height="64" rx="3" fill="#00B87C"/><rect x="162" y="0" width="38" height="14" rx="3" fill="#00B87C"/><rect x="162" y="50" width="38" height="14" rx="3" fill="#00B87C"/><text x="100" y="28" font-family="'Syne',sans-serif" font-weight="800" font-size="19" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle" letter-spacing="3">TCB</text><text x="100" y="50" font-family="'DM Sans',sans-serif" font-weight="500" font-size="7.5" fill="#8BA3C1" text-anchor="middle" letter-spacing="1.5">TANZANIA COMMERCIAL BANK</text></svg>
+      <p>A DSG / Broadbrand initiative in partnership with MTN Tanzania.<br>Workshop — 17 April 2026, Dar es Salaam.</p>
+      <p style="margin-top:12px;font-size:.76rem;color:var(--green);">#DoingSomethingGreat</p>
+    </div>
+    <div class="ft-col">
+      <h4>Sections</h4>
+      <a href="#why">Why MVNOs</a><a href="#cvp">CVP</a><a href="#vas">VAS</a>
+      <a href="#usecases">TCB Use Cases</a><a href="#evp">EVP</a>
+      <a href="#models">Engagement Models</a><a href="#methodology">Methodology</a>
+    </div>
+    <div class="ft-col">
+      <h4>Partners</h4>
+      <a href="#">Bitdefender / Digital Resilience</a><a href="#">eInsurer</a>
+      <a href="#">Sentiance</a><a href="#">Digital Mobile</a><a href="#">Xanite CVM</a>
+    </div>
+    <div class="ft-col">
+      <h4>Contact DSG</h4>
+      <a href="mailto:support@dsg.co.za">support@dsg.co.za</a>
+      <a href="tel:+27117597000">+2711 759 7000</a>
+      <a href="https://dsg.co.za" target="_blank">dsg.co.za</a>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span>© 2026 DSG Digital Solutions Group. Confidential — All rights reserved.</span>
+    <span>TCB MVNO Workshop · 17 April 2026 · <a href="#">#DoingSomethingGreat</a></span>
+  </div>
+</footer>
+
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   ACCESS CONTROL SYSTEM
+   - Username: tcbmvno   Password: TCBworkshop2026
+   - 3-day access window from first login
+   - Max 5 page opens total
+   - Watermark + no copy/print/inspect protection
+═══════════════════════════════════════════════════════ */
+
+const CREDS = {
+  user: 'tcbmvno',
+  pass: 'TCBworkshop2026'
+};
+const MAX_OPENS  = 5;
+const MAX_DAYS   = 3;
+const STORE_KEY  = 'tcb_mvno_2026_access';
+
+function getStore() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+function setStore(d) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); }
+  catch(e) {}
+}
+
+function checkAccess() {
+  const s = getStore();
+  const now = Date.now();
+
+  // Not yet authenticated at all
+  if (!s.authed) return 'gate';
+
+  // Check expiry (3 days from first login)
+  if (s.firstLogin && (now - s.firstLogin) > MAX_DAYS * 24 * 60 * 60 * 1000) {
+    return 'expired';
+  }
+
+  // Check open count
+  if (s.opens >= MAX_OPENS) return 'maxopens';
+
+  return 'ok';
+}
+
+function gateLogin() {
+  const u = document.getElementById('gate-user').value.trim();
+  const p = document.getElementById('gate-pass').value.trim();
+  const err = document.getElementById('gate-err');
+
+  if (u === CREDS.user && p === CREDS.pass) {
+    const s = getStore();
+    const now = Date.now();
+    s.authed = true;
+    s.firstLogin = s.firstLogin || now;
+    s.opens = (s.opens || 0) + 1;
+    setStore(s);
+    unlockSite();
+  } else {
+    err.style.display = 'block';
+    document.getElementById('gate-user').style.borderColor = 'rgba(255,107,107,.5)';
+    document.getElementById('gate-pass').style.borderColor = 'rgba(255,107,107,.5)';
+    setTimeout(() => {
+      err.style.display = 'none';
+      document.getElementById('gate-user').style.borderColor = '';
+      document.getElementById('gate-pass').style.borderColor = '';
+    }, 3000);
+  }
+}
+
+function showBlocked(reason) {
+  document.getElementById('gate-form-box').style.display = 'none';
+  document.getElementById('gate-blocked-box').style.display = 'block';
+  const msg = document.getElementById('gate-blocked-msg');
+  if (reason === 'expired') {
+    msg.innerHTML = '<h2>Access Expired</h2><p>Your 3-day access window has ended.<br><br>Please contact DSG / Broadbrand for renewed access.</p>';
+  } else if (reason === 'maxopens') {
+    msg.innerHTML = '<h2>View Limit Reached</h2><p>This document has reached its maximum number of views (' + MAX_OPENS + ' opens).<br><br>Please contact DSG / Broadbrand to request continued access.</p>';
+  }
+}
+
+function unlockSite() {
+  // Record this open
+  const s = getStore();
+  if (!s._counted) {
+    s._counted = true;
+    setStore(s);
+  }
+  // Fade out gate
+  const overlay = document.getElementById('gate-overlay');
+  overlay.classList.add('hide');
+  setTimeout(() => { overlay.style.display = 'none'; }, 500);
+  // Show watermark
+  document.getElementById('wm').style.display = 'block';
+  // Init scroll reveals & nav
+  initSite();
+  // Show access info
+  const remaining = MAX_OPENS - s.opens;
+  const expiryDate = new Date(s.firstLogin + MAX_DAYS * 86400000);
+  console.info(`TCB MVNO Access: ${s.opens}/${MAX_OPENS} opens used. Expires ${expiryDate.toDateString()}.`);
+}
+
+/* ─── IP PROTECTION ─── */
+// Disable right-click
+document.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
+// Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S, Ctrl+P, Ctrl+A
+document.addEventListener('keydown', e => {
+  const blocked = [
+    e.key === 'F12',
+    (e.ctrlKey || e.metaKey) && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase()),
+    (e.ctrlKey || e.metaKey) && ['U','S','P','A'].includes(e.key.toUpperCase()),
+    e.key === 'PrintScreen'
+  ];
+  if (blocked.some(Boolean)) { e.preventDefault(); e.stopPropagation(); return false; }
+});
+// Disable drag
+document.addEventListener('dragstart', e => e.preventDefault());
+// Disable print via CSS
+const printStyle = document.createElement('style');
+printStyle.textContent = '@media print { body { display: none !important; } }';
+document.head.appendChild(printStyle);
+// Detect DevTools open (basic heuristic)
+let devToolsOpen = false;
+setInterval(() => {
+  const t = performance.now();
+  debugger;
+  if (performance.now() - t > 100 && !devToolsOpen) {
+    devToolsOpen = true;
+  }
+}, 5000);
+
+/* ─── SITE INIT ─── */
+function initSite() {
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(x => { if (x.isIntersecting) x.target.classList.add('vis'); });
+  }, { threshold: .08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.rev').forEach(el => obs.observe(el));
+
+  // Nav active + bg
+  const secs  = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+    document.getElementById('navbar').style.background =
+      window.scrollY > 50 ? 'rgba(4,10,20,.98)' : 'rgba(8,17,32,.94)';
+  });
+
+  // Enter key on login
+  document.getElementById('gate-pass') && document.getElementById('gate-pass').addEventListener('keydown', e => {
+    if (e.key === 'Enter') gateLogin();
+  });
+}
+
+/* ─── ON LOAD ─── */
+window.addEventListener('DOMContentLoaded', () => {
+  const status = checkAccess();
+  if (status === 'ok') {
+    // Already logged in, just increment opens
+    const s = getStore();
+    s.opens = (s.opens || 0) + 1;
+    setStore(s);
+    unlockSite();
+  } else if (status === 'expired' || status === 'maxopens') {
+    showBlocked(status);
+  } else {
+    // Show gate — enter key support
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') gateLogin();
+    });
+    initSite(); // still init nav etc for after unlock
+  }
+});
+</script>
+</body>
+</html>
